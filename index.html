@@ -1,0 +1,2668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PERSCOM Advance — Personnel Management for Milsim Units</title>
+  <meta name="description" content="PERSCOM Advance is the professional-grade milsim personnel management platform. Roster management, operations tracking, Discord integration, ORBAT, and more." />
+  <meta name="keywords" content="milsim personnel management, military unit management system, milsim roster, discord milsim bot, milsim operations tracker, PERSCOM, military simulation unit software" />
+  <meta name="author" content="PERSCOM Advance" />
+  <meta property="og:title" content="PERSCOM Advance — The Operating System for Your Milsim Unit" />
+  <meta property="og:description" content="Professional-grade personnel management, operations tracking, and Discord integration for serious milsim gaming units." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://perscom.io" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="PERSCOM Advance — Milsim Personnel Management" />
+  <meta name="twitter:description" content="The operating system for your milsim unit. Personnel, ops, Discord sync, ORBAT — all in one." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    /* ============================================
+       CSS CUSTOM PROPERTIES
+    ============================================ */
+    :root {
+      --bg-primary: #0a0e1a;
+      --bg-card: #0f1629;
+      --bg-card-2: #131d35;
+      --accent-primary: #2563eb;
+      --accent-secondary: #3b82f6;
+      --accent-purple: #7c3aed;
+      --accent-glow: rgba(37, 99, 235, 0.4);
+      --accent-glow-strong: rgba(37, 99, 235, 0.6);
+      --text-primary: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-subtle: #64748b;
+      --green: #10b981;
+      --green-glow: rgba(16, 185, 129, 0.3);
+      --border: rgba(255, 255, 255, 0.08);
+      --border-hover: rgba(255, 255, 255, 0.15);
+      --border-blue: rgba(37, 99, 235, 0.4);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+      --shadow-glow: 0 0 40px rgba(37, 99, 235, 0.15);
+      --shadow-glow-strong: 0 0 60px rgba(37, 99, 235, 0.3);
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-slow: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ============================================
+       RESET & BASE
+    ============================================ */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-primary); }
+    ::-webkit-scrollbar-thumb { background: var(--accent-primary); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--accent-secondary); }
+
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+    ul { list-style: none; }
+
+    /* ============================================
+       TYPOGRAPHY
+    ============================================ */
+    .gradient-text {
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .gradient-text-blue {
+      background: linear-gradient(135deg, #60a5fa, #2563eb);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent-secondary);
+      background: rgba(37, 99, 235, 0.1);
+      border: 1px solid rgba(37, 99, 235, 0.2);
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+
+    .section-subtitle {
+      font-size: clamp(16px, 2vw, 18px);
+      color: var(--text-muted);
+      max-width: 580px;
+      line-height: 1.7;
+    }
+
+    .text-center { text-align: center; }
+    .text-center .section-subtitle { margin: 0 auto; }
+
+    /* ============================================
+       BUTTONS
+    ============================================ */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: var(--radius-md);
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: var(--transition);
+      white-space: nowrap;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-purple));
+      color: #fff;
+      box-shadow: 0 4px 24px var(--accent-glow);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 40px var(--accent-glow-strong);
+      filter: brightness(1.1);
+    }
+
+    .btn-primary:active { transform: translateY(0); }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-primary);
+      border: 1px solid var(--border-hover);
+      backdrop-filter: blur(10px);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent-primary);
+      color: var(--accent-secondary);
+      background: rgba(37, 99, 235, 0.08);
+      transform: translateY(-2px);
+    }
+
+    .btn-lg {
+      padding: 16px 32px;
+      font-size: 16px;
+      border-radius: var(--radius-lg);
+    }
+
+    /* ============================================
+       GLASS CARDS
+    ============================================ */
+    .glass-card {
+      background: rgba(15, 22, 41, 0.8);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      transition: var(--transition);
+    }
+
+    .glass-card:hover {
+      border-color: var(--border-blue);
+      box-shadow: var(--shadow-glow);
+      transform: translateY(-4px);
+    }
+
+    /* ============================================
+       NAVBAR
+    ============================================ */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 16px 0;
+      transition: var(--transition);
+    }
+
+    .navbar.scrolled {
+      background: rgba(10, 14, 26, 0.92);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 0;
+      box-shadow: 0 4px 32px rgba(0, 0, 0, 0.4);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      flex-shrink: 0;
+    }
+
+    .nav-logo .logo-perscom {
+      background: linear-gradient(135deg, #60a5fa, #2563eb);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .nav-logo .logo-advance { color: var(--text-primary); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-muted);
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent-primary);
+      transition: var(--transition);
+      border-radius: 2px;
+    }
+
+    .nav-links a:hover { color: var(--text-primary); }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-links a.active { color: var(--text-primary); }
+    .nav-links a.active::after { width: 100%; }
+
+    .nav-cta { display: flex; align-items: center; gap: 12px; }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+      background: none;
+      border: none;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--text-primary);
+      border-radius: 2px;
+      transition: var(--transition);
+    }
+
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(10, 14, 26, 0.98);
+      backdrop-filter: blur(24px);
+      z-index: 999;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      padding: 24px;
+    }
+
+    .mobile-menu.open { display: flex; }
+
+    .mobile-menu a {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-muted);
+      transition: var(--transition);
+    }
+
+    .mobile-menu a:hover { color: var(--text-primary); }
+
+    /* ============================================
+       HERO SECTION
+    ============================================ */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 120px 0 80px;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      animation: orbFloat 8s ease-in-out infinite;
+      will-change: transform;
+    }
+
+    .orb-1 {
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(37, 99, 235, 0.25) 0%, transparent 70%);
+      top: -200px;
+      left: -200px;
+      animation-delay: 0s;
+      animation-duration: 10s;
+    }
+
+    .orb-2 {
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(124, 58, 237, 0.2) 0%, transparent 70%);
+      top: 100px;
+      right: -150px;
+      animation-delay: -3s;
+      animation-duration: 12s;
+    }
+
+    .orb-3 {
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.12) 0%, transparent 70%);
+      bottom: 0;
+      left: 30%;
+      animation-delay: -6s;
+      animation-duration: 9s;
+    }
+
+    .orb-4 {
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(37, 99, 235, 0.15) 0%, transparent 70%);
+      bottom: 100px;
+      right: 20%;
+      animation-delay: -2s;
+      animation-duration: 11s;
+    }
+
+    @keyframes orbFloat {
+      0%, 100% { transform: translateY(0px) scale(1); }
+      33% { transform: translateY(-30px) scale(1.05); }
+      66% { transform: translateY(20px) scale(0.97); }
+    }
+
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(37, 99, 235, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(37, 99, 235, 0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+    }
+
+    .hero-container {
+      position: relative;
+      z-index: 10;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 80px;
+    }
+
+    .hero-content { max-width: 580px; }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(37, 99, 235, 0.12);
+      border: 1px solid rgba(37, 99, 235, 0.3);
+      border-radius: 100px;
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent-secondary);
+      margin-bottom: 28px;
+      animation: badgePulse 3s ease-in-out infinite;
+    }
+
+    @keyframes badgePulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.3); }
+      50% { box-shadow: 0 0 0 8px rgba(37, 99, 235, 0); }
+    }
+
+    .hero-headline {
+      font-size: clamp(40px, 5.5vw, 72px);
+      font-weight: 900;
+      line-height: 1.07;
+      letter-spacing: -0.03em;
+      margin-bottom: 24px;
+    }
+
+    .hero-sub {
+      font-size: clamp(16px, 1.8vw, 19px);
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 40px;
+      max-width: 520px;
+    }
+
+    .hero-ctas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+
+    .hero-social-proof {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .avatar-stack {
+      display: flex;
+    }
+
+    .avatar-stack .avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 2px solid var(--bg-primary);
+      margin-left: -10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .avatar-stack .avatar:first-child { margin-left: 0; }
+    .avatar-1 { background: linear-gradient(135deg, #2563eb, #7c3aed); }
+    .avatar-2 { background: linear-gradient(135deg, #10b981, #2563eb); }
+    .avatar-3 { background: linear-gradient(135deg, #f59e0b, #ef4444); }
+    .avatar-4 { background: linear-gradient(135deg, #7c3aed, #ec4899); }
+    .avatar-5 { background: linear-gradient(135deg, #0ea5e9, #10b981); }
+
+    .social-proof-text {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .social-proof-text strong {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    /* Hero mockup */
+    .hero-visual {
+      position: relative;
+    }
+
+    .hero-mockup {
+      background: rgba(15, 22, 41, 0.9);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 20px;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.5), 0 0 60px rgba(37,99,235,0.15);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-mockup::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(37,99,235,0.6), transparent);
+    }
+
+    .mockup-topbar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .mockup-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .mockup-dot-red { background: #ef4444; }
+    .mockup-dot-yellow { background: #f59e0b; }
+    .mockup-dot-green { background: var(--green); }
+
+    .mockup-title {
+      margin-left: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .mockup-content {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 12px;
+      min-height: 300px;
+    }
+
+    .mockup-sidebar {
+      background: rgba(10, 14, 26, 0.6);
+      border-radius: var(--radius-md);
+      padding: 12px 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .sidebar-item {
+      padding: 8px 10px;
+      border-radius: var(--radius-sm);
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-subtle);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition);
+    }
+
+    .sidebar-item.active {
+      background: rgba(37, 99, 235, 0.15);
+      color: var(--accent-secondary);
+      border: 1px solid rgba(37, 99, 235, 0.2);
+    }
+
+    .sidebar-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+      flex-shrink: 0;
+    }
+
+    .mockup-main { display: flex; flex-direction: column; gap: 10px; }
+
+    .mockup-stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .mockup-stat {
+      background: rgba(10, 14, 26, 0.6);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px;
+    }
+
+    .mockup-stat-val {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--text-primary);
+      line-height: 1;
+    }
+
+    .mockup-stat-val.blue { color: var(--accent-secondary); }
+    .mockup-stat-val.green { color: var(--green); }
+
+    .mockup-stat-label {
+      font-size: 9px;
+      color: var(--text-subtle);
+      margin-top: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .mockup-table {
+      background: rgba(10, 14, 26, 0.6);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      flex: 1;
+    }
+
+    .mockup-table-header {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(37, 99, 235, 0.06);
+    }
+
+    .mockup-th {
+      font-size: 9px;
+      font-weight: 700;
+      color: var(--text-subtle);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .mockup-table-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      padding: 7px 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      align-items: center;
+    }
+
+    .mockup-td {
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    .mockup-td.name { color: var(--text-primary); font-weight: 500; }
+
+    .rank-badge {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .rank-badge.sgt { background: rgba(37,99,235,0.2); color: var(--accent-secondary); }
+    .rank-badge.cpl { background: rgba(16,185,129,0.2); color: var(--green); }
+    .rank-badge.pvt { background: rgba(100,116,139,0.2); color: var(--text-subtle); }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      display: inline-block;
+      margin-right: 4px;
+      box-shadow: 0 0 6px var(--green);
+    }
+
+    /* Floating badges */
+    .float-badge {
+      position: absolute;
+      background: rgba(15, 22, 41, 0.9);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border-blue);
+      border-radius: var(--radius-md);
+      padding: 10px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 20px rgba(37,99,235,0.1);
+      white-space: nowrap;
+      animation: floatBadge 4s ease-in-out infinite;
+    }
+
+    .float-badge-1 {
+      top: -20px;
+      right: -20px;
+      animation-delay: 0s;
+    }
+
+    .float-badge-2 {
+      bottom: 60px;
+      left: -30px;
+      animation-delay: -2s;
+    }
+
+    .float-badge-3 {
+      bottom: -20px;
+      right: 40px;
+      animation-delay: -1s;
+    }
+
+    .float-badge-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+    }
+
+    .fb-blue { background: rgba(37,99,235,0.2); }
+    .fb-green { background: rgba(16,185,129,0.2); }
+    .fb-purple { background: rgba(124,58,237,0.2); }
+
+    @keyframes floatBadge {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    /* ============================================
+       STATS BAR
+    ============================================ */
+    .stats-bar {
+      padding: 0 24px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .stats-bar-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: rgba(15, 22, 41, 0.9);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 40px 60px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stats-bar-inner::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent-primary), var(--accent-purple), transparent);
+    }
+
+    .stat-item {
+      text-align: center;
+      position: relative;
+    }
+
+    .stat-item:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: -20px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 1px;
+      height: 60%;
+      background: var(--border);
+    }
+
+    .stat-number {
+      font-size: clamp(32px, 3.5vw, 48px);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      background: linear-gradient(135deg, #60a5fa, #2563eb);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .stat-label {
+      font-size: 14px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* ============================================
+       FEATURES SECTION
+    ============================================ */
+    .section {
+      padding: 100px 24px;
+      position: relative;
+    }
+
+    .section-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      margin-bottom: 64px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .feature-card {
+      background: rgba(15, 22, 41, 0.8);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(37,99,235,0.4), transparent);
+      opacity: 0;
+      transition: var(--transition);
+    }
+
+    .feature-card:hover {
+      border-color: var(--border-blue);
+      box-shadow: var(--shadow-glow), 0 20px 60px rgba(0,0,0,0.3);
+      transform: translateY(-6px);
+    }
+
+    .feature-card:hover::before { opacity: 1; }
+
+    .feature-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(37,99,235,0.2), rgba(124,58,237,0.2));
+      border: 1px solid rgba(37,99,235,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      font-size: 22px;
+    }
+
+    .feature-title {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--text-primary);
+    }
+
+    .feature-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    /* ============================================
+       HOW IT WORKS
+    ============================================ */
+    .how-it-works-bg {
+      background: rgba(15, 22, 41, 0.4);
+      position: relative;
+    }
+
+    .how-it-works-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(37,99,235,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      position: relative;
+    }
+
+    .steps-grid::before {
+      content: '';
+      position: absolute;
+      top: 36px;
+      left: calc(16.66% + 20px);
+      right: calc(16.66% + 20px);
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent-primary), var(--accent-purple));
+      opacity: 0.3;
+      z-index: 0;
+    }
+
+    .step-card {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .step-number {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      border: 2px solid var(--accent-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin: 0 auto 28px;
+      position: relative;
+      background-color: var(--bg-primary);
+    }
+
+    .step-number::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-purple));
+      z-index: -1;
+    }
+
+    .step-number::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: var(--bg-primary);
+      z-index: -1;
+    }
+
+    .step-number-inner {
+      background: linear-gradient(135deg, #60a5fa, #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-size: 28px;
+      font-weight: 900;
+      position: relative;
+      z-index: 1;
+    }
+
+    .step-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .step-desc {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    /* ============================================
+       CUSTOMIZATION SHOWCASE
+    ============================================ */
+    .customization-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .custom-features-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 32px;
+    }
+
+    .custom-feature-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text-muted);
+      transition: var(--transition);
+    }
+
+    .custom-feature-item:hover { color: var(--text-primary); }
+
+    .check-icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--green);
+      font-size: 12px;
+    }
+
+    /* Custom app mockup */
+    .app-mockup {
+      background: rgba(10, 14, 26, 0.8);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      box-shadow: 0 40px 80px rgba(0,0,0,0.4), 0 0 40px rgba(37,99,235,0.1);
+    }
+
+    .app-mockup-header {
+      padding: 12px 20px;
+      background: rgba(15, 22, 41, 0.9);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .app-unit-name {
+      font-size: 13px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #10b981, #2563eb);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .app-header-dots { display: flex; gap: 6px; }
+
+    .app-body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .app-hero-bar {
+      height: 64px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(135deg, rgba(16,185,129,0.15), rgba(37,99,235,0.15));
+      border: 1px solid rgba(16,185,129,0.2);
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      gap: 12px;
+    }
+
+    .unit-badge-circle {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #10b981, #2563eb);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .unit-name-text {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .unit-sub-text {
+      font-size: 11px;
+      color: var(--text-subtle);
+    }
+
+    .app-modules-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+
+    .app-module {
+      background: rgba(15,22,41,0.8);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px 8px;
+      text-align: center;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-subtle);
+    }
+
+    .app-module.active {
+      background: rgba(37,99,235,0.1);
+      border-color: rgba(37,99,235,0.3);
+      color: var(--accent-secondary);
+    }
+
+    .app-module-icon { font-size: 16px; margin-bottom: 4px; }
+
+    .app-roster-preview {
+      background: rgba(15,22,41,0.8);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+
+    .app-roster-header {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      background: rgba(16,185,129,0.05);
+    }
+
+    .app-roster-row {
+      padding: 9px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      font-size: 11px;
+    }
+
+    .app-roster-name { font-weight: 600; color: var(--text-primary); }
+    .app-roster-rank {
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 9px;
+      font-weight: 700;
+      background: rgba(16,185,129,0.15);
+      color: var(--green);
+    }
+
+    /* ============================================
+       PRICING SECTION
+    ============================================ */
+    .pricing-bg {
+      position: relative;
+    }
+
+    .pricing-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 50% 60% at 50% 50%, rgba(37,99,235,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .pricing-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+
+    .toggle-label {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .toggle-label.active { color: var(--text-primary); }
+
+    .toggle-switch {
+      width: 52px;
+      height: 28px;
+      background: rgba(37,99,235,0.2);
+      border: 1px solid rgba(37,99,235,0.4);
+      border-radius: 100px;
+      cursor: pointer;
+      position: relative;
+      transition: var(--transition);
+    }
+
+    .toggle-switch.annual { background: rgba(37,99,235,0.4); }
+
+    .toggle-knob {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--accent-secondary);
+      transition: var(--transition);
+      box-shadow: 0 2px 8px rgba(37,99,235,0.5);
+    }
+
+    .toggle-switch.annual .toggle-knob { left: 27px; }
+
+    .save-badge {
+      background: rgba(16,185,129,0.15);
+      border: 1px solid rgba(16,185,129,0.3);
+      color: var(--green);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 100px;
+    }
+
+    .pricing-card-wrapper {
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .pricing-card {
+      background: rgba(15, 22, 41, 0.9);
+      backdrop-filter: blur(24px);
+      border: 1px solid rgba(37, 99, 235, 0.4);
+      border-radius: var(--radius-xl);
+      padding: 48px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 80px rgba(37,99,235,0.15), 0 40px 80px rgba(0,0,0,0.3);
+    }
+
+    .pricing-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent-primary), var(--accent-purple));
+    }
+
+    .pricing-card::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(ellipse at center, rgba(37,99,235,0.05) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .pricing-plan-name {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent-secondary);
+      margin-bottom: 24px;
+    }
+
+    .pricing-price {
+      margin-bottom: 8px;
+    }
+
+    .price-amount {
+      font-size: 64px;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      color: var(--text-primary);
+    }
+
+    .price-currency {
+      font-size: 28px;
+      font-weight: 700;
+      vertical-align: top;
+      margin-top: 12px;
+      display: inline-block;
+      color: var(--text-muted);
+    }
+
+    .price-period {
+      font-size: 16px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .price-annual {
+      font-size: 14px;
+      color: var(--green);
+      font-weight: 600;
+      margin-bottom: 32px;
+      min-height: 20px;
+    }
+
+    .pricing-features {
+      list-style: none;
+      text-align: left;
+      margin-bottom: 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .pricing-features li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 15px;
+      color: var(--text-muted);
+    }
+
+    .pricing-features li .check-icon { flex-shrink: 0; }
+
+    .pricing-cta { width: 100%; justify-content: center; font-size: 17px; padding: 18px 32px; }
+
+    .pricing-note {
+      margin-top: 20px;
+      font-size: 13px;
+      color: var(--text-subtle);
+      line-height: 1.5;
+    }
+
+    /* ============================================
+       FAQ
+    ============================================ */
+    .faq-list {
+      max-width: 760px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .faq-item {
+      background: rgba(15, 22, 41, 0.7);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: var(--transition);
+    }
+
+    .faq-item:hover { border-color: var(--border-blue); }
+    .faq-item.open { border-color: rgba(37,99,235,0.3); }
+
+    .faq-question {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      transition: var(--transition);
+      gap: 16px;
+    }
+
+    .faq-question:hover { color: var(--accent-secondary); }
+
+    .faq-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: rgba(37,99,235,0.1);
+      border: 1px solid rgba(37,99,235,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: var(--transition);
+      color: var(--accent-secondary);
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .faq-item.open .faq-icon {
+      background: rgba(37,99,235,0.2);
+      transform: rotate(45deg);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .faq-answer-inner {
+      padding: 0 24px 20px;
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.7;
+      border-top: 1px solid var(--border);
+      padding-top: 16px;
+    }
+
+    /* ============================================
+       CTA SECTION
+    ============================================ */
+    .cta-section {
+      padding: 0 24px 100px;
+    }
+
+    .cta-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: linear-gradient(135deg, rgba(37,99,235,0.15) 0%, rgba(124,58,237,0.15) 100%);
+      border: 1px solid rgba(37,99,235,0.3);
+      border-radius: var(--radius-xl);
+      padding: 80px 60px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-inner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(37,99,235,0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .cta-inner::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent-primary), var(--accent-purple), transparent);
+    }
+
+    .cta-title {
+      font-size: clamp(32px, 4.5vw, 56px);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-sub {
+      font-size: 18px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-btn { position: relative; z-index: 1; }
+
+    /* ============================================
+       FOOTER
+    ============================================ */
+    .footer {
+      padding: 60px 24px 32px;
+      border-top: 1px solid var(--border);
+      position: relative;
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 60px;
+      margin-bottom: 48px;
+    }
+
+    .footer-brand {}
+
+    .footer-logo {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+    }
+
+    .footer-tagline {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      max-width: 260px;
+    }
+
+    .footer-col-title {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-subtle);
+      margin-bottom: 16px;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-links a {
+      font-size: 14px;
+      color: var(--text-muted);
+      transition: var(--transition);
+    }
+
+    .footer-links a:hover { color: var(--text-primary); }
+
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 28px;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-copy {
+      font-size: 13px;
+      color: var(--text-subtle);
+    }
+
+    .footer-legal {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-legal a {
+      font-size: 13px;
+      color: var(--text-subtle);
+      transition: var(--transition);
+    }
+
+    .footer-legal a:hover { color: var(--text-muted); }
+
+    /* ============================================
+       ANIMATIONS
+    ============================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .reveal.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .slide-in-left {
+      opacity: 0;
+      transform: translateX(-40px);
+      transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .slide-in-left.revealed {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .slide-in-right {
+      opacity: 0;
+      transform: translateX(40px);
+      transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .slide-in-right.revealed {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .fade-in {
+      opacity: 0;
+      transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .fade-in.revealed { opacity: 1; }
+
+    .reveal-stagger > * {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .reveal-stagger.revealed > *:nth-child(1) { opacity:1; transform:none; transition-delay: 0ms; }
+    .reveal-stagger.revealed > *:nth-child(2) { opacity:1; transform:none; transition-delay: 80ms; }
+    .reveal-stagger.revealed > *:nth-child(3) { opacity:1; transform:none; transition-delay: 160ms; }
+    .reveal-stagger.revealed > *:nth-child(4) { opacity:1; transform:none; transition-delay: 240ms; }
+    .reveal-stagger.revealed > *:nth-child(5) { opacity:1; transform:none; transition-delay: 320ms; }
+    .reveal-stagger.revealed > *:nth-child(6) { opacity:1; transform:none; transition-delay: 400ms; }
+    .reveal-stagger.revealed > *:nth-child(7) { opacity:1; transform:none; transition-delay: 480ms; }
+    .reveal-stagger.revealed > *:nth-child(8) { opacity:1; transform:none; transition-delay: 560ms; }
+    .reveal-stagger.revealed > *:nth-child(9) { opacity:1; transform:none; transition-delay: 640ms; }
+
+    /* ============================================
+       RESPONSIVE
+    ============================================ */
+    @media (max-width: 1024px) {
+      .hero-container { grid-template-columns: 1fr; gap: 60px; }
+      .hero-visual { display: none; }
+      .hero-content { max-width: 100%; }
+      .hero-headline { font-size: clamp(36px, 6vw, 56px); }
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+      .customization-grid { grid-template-columns: 1fr; gap: 48px; }
+      .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }
+      .steps-grid::before { display: none; }
+      .stats-bar-inner { padding: 32px 32px; }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links, .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      .hero { padding: 100px 0 60px; }
+      .hero-container { padding: 0 20px; }
+      .section { padding: 72px 20px; }
+      .features-grid { grid-template-columns: 1fr; }
+      .steps-grid { grid-template-columns: 1fr; gap: 32px; }
+      .stats-bar-inner {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 28px;
+        padding: 28px 24px;
+      }
+      .stat-item:nth-child(2)::after,
+      .stat-item:nth-child(4)::after { display: none; }
+      .stat-item:nth-child(1)::after,
+      .stat-item:nth-child(3)::after {
+        right: -14px;
+        display: block;
+      }
+      .pricing-card { padding: 32px 24px; }
+      .cta-inner { padding: 48px 24px; }
+      .footer-top { grid-template-columns: 1fr; gap: 32px; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .hero-ctas { flex-direction: column; align-items: flex-start; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-headline { font-size: 34px; }
+      .stats-bar-inner { grid-template-columns: 1fr 1fr; }
+      .pricing-card { padding: 28px 20px; }
+      .price-amount { font-size: 52px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================
+       NAVBAR
+  ============================================ -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#" class="nav-logo">
+        <span class="logo-perscom">PERSCOM</span>
+        <span class="logo-advance">&nbsp;Advance</span>
+      </a>
+      <ul class="nav-links" role="navigation">
+        <li><a href="#features" class="nav-link">Features</a></li>
+        <li><a href="#pricing" class="nav-link">Pricing</a></li>
+        <li><a href="#faq" class="nav-link">FAQ</a></li>
+        <li><a href="#" class="nav-link">Discord</a></li>
+      </ul>
+      <div class="nav-cta">
+        <a href="#pricing" class="btn btn-primary">Get Started →</a>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#features" class="mobile-link">Features</a>
+    <a href="#pricing" class="mobile-link">Pricing</a>
+    <a href="#faq" class="mobile-link">FAQ</a>
+    <a href="#" class="mobile-link">Discord</a>
+    <a href="#pricing" class="btn btn-primary btn-lg">Get Started →</a>
+  </div>
+
+  <!-- ============================================
+       HERO SECTION
+  ============================================ -->
+  <section class="hero" id="hero">
+    <div class="hero-bg">
+      <div class="hero-grid"></div>
+      <div class="orb orb-1" id="orb1"></div>
+      <div class="orb orb-2" id="orb2"></div>
+      <div class="orb orb-3" id="orb3"></div>
+      <div class="orb orb-4" id="orb4"></div>
+    </div>
+    <div class="hero-container">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          Built for Serious Milsim Units
+        </div>
+        <h1 class="hero-headline">
+          The Operating System<br />
+          for Your <span class="gradient-text">Milsim Unit</span>
+        </h1>
+        <p class="hero-sub" id="heroSub">
+          PERSCOM Advance gives your unit professional-grade personnel management, operations tracking, and Discord integration — all in one powerful platform.
+        </p>
+        <div class="hero-ctas">
+          <a href="#pricing" class="btn btn-primary btn-lg">Start Your Subscription →</a>
+          <a href="#features" class="btn btn-secondary btn-lg">View Features</a>
+        </div>
+        <div class="hero-social-proof">
+          <div class="avatar-stack">
+            <div class="avatar avatar-1">J</div>
+            <div class="avatar avatar-2">M</div>
+            <div class="avatar avatar-3">R</div>
+            <div class="avatar avatar-4">K</div>
+            <div class="avatar avatar-5">T</div>
+          </div>
+          <div class="social-proof-text">
+            Trusted by <strong>50+ milsim units</strong> worldwide<br />
+            <span style="color: var(--green); font-size: 12px;">★★★★★ 4.9/5 from unit commanders</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hero-mockup">
+          <div class="mockup-topbar">
+            <div class="mockup-dot mockup-dot-red"></div>
+            <div class="mockup-dot mockup-dot-yellow"></div>
+            <div class="mockup-dot mockup-dot-green"></div>
+            <div class="mockup-title">PERSCOM Advance — Personnel Dashboard</div>
+          </div>
+          <div class="mockup-content">
+            <div class="mockup-sidebar">
+              <div class="sidebar-item active">
+                <div class="sidebar-dot"></div> Personnel
+              </div>
+              <div class="sidebar-item">
+                <div class="sidebar-dot"></div> Operations
+              </div>
+              <div class="sidebar-item">
+                <div class="sidebar-dot"></div> ORBAT
+              </div>
+              <div class="sidebar-item">
+                <div class="sidebar-dot"></div> Evaluations
+              </div>
+              <div class="sidebar-item">
+                <div class="sidebar-dot"></div> Discord
+              </div>
+              <div class="sidebar-item">
+                <div class="sidebar-dot"></div> Analytics
+              </div>
+              <div class="sidebar-item">
+                <div class="sidebar-dot"></div> Documents
+              </div>
+              <div class="sidebar-item">
+                <div class="sidebar-dot"></div> Settings
+              </div>
+            </div>
+            <div class="mockup-main">
+              <div class="mockup-stats-row">
+                <div class="mockup-stat">
+                  <div class="mockup-stat-val blue">142</div>
+                  <div class="mockup-stat-label">Personnel</div>
+                </div>
+                <div class="mockup-stat">
+                  <div class="mockup-stat-val green">38</div>
+                  <div class="mockup-stat-label">Active Ops</div>
+                </div>
+                <div class="mockup-stat">
+                  <div class="mockup-stat-val">12</div>
+                  <div class="mockup-stat-label">Pending Evals</div>
+                </div>
+              </div>
+              <div class="mockup-table">
+                <div class="mockup-table-header">
+                  <div class="mockup-th">Name</div>
+                  <div class="mockup-th">Rank</div>
+                  <div class="mockup-th">Status</div>
+                </div>
+                <div class="mockup-table-row">
+                  <div class="mockup-td name">Anderson, J.</div>
+                  <div class="mockup-td"><span class="rank-badge sgt">SGT</span></div>
+                  <div class="mockup-td"><span class="status-dot"></span>Active</div>
+                </div>
+                <div class="mockup-table-row">
+                  <div class="mockup-td name">Martinez, R.</div>
+                  <div class="mockup-td"><span class="rank-badge cpl">CPL</span></div>
+                  <div class="mockup-td"><span class="status-dot"></span>Active</div>
+                </div>
+                <div class="mockup-table-row">
+                  <div class="mockup-td name">Thompson, K.</div>
+                  <div class="mockup-td"><span class="rank-badge pvt">PVT</span></div>
+                  <div class="mockup-td"><span class="status-dot"></span>Active</div>
+                </div>
+                <div class="mockup-table-row">
+                  <div class="mockup-td name">Wilson, B.</div>
+                  <div class="mockup-td"><span class="rank-badge sgt">SGT</span></div>
+                  <div class="mockup-td"><span class="status-dot"></span>Active</div>
+                </div>
+                <div class="mockup-table-row">
+                  <div class="mockup-td name">Davis, C.</div>
+                  <div class="mockup-td"><span class="rank-badge cpl">CPL</span></div>
+                  <div class="mockup-td"><span class="status-dot"></span>Active</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Floating badges -->
+        <div class="float-badge float-badge-1">
+          <div class="float-badge-icon fb-blue">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2.5"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+          </div>
+          Discord Sync Active
+        </div>
+        <div class="float-badge float-badge-2">
+          <div class="float-badge-icon fb-green">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 9h6M9 12h6M9 15h4"/></svg>
+          </div>
+          Live ORBAT
+        </div>
+        <div class="float-badge float-badge-3">
+          <div class="float-badge-icon fb-purple">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          Evaluation System
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       STATS BAR
+  ============================================ -->
+  <div class="stats-bar" id="stats">
+    <div class="stats-bar-inner reveal-stagger">
+      <div class="stat-item">
+        <div class="stat-number" data-target="500" data-suffix="+">0+</div>
+        <div class="stat-label">Personnel Managed</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" data-target="50" data-suffix="+">0+</div>
+        <div class="stat-label">Active Units</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" data-target="99.9" data-suffix="%" data-decimal="1">0%</div>
+        <div class="stat-label">Uptime</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" data-target="24" data-suffix="/7">0/7</div>
+        <div class="stat-label">Discord Support</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       FEATURES SECTION
+  ============================================ -->
+  <section class="section" id="features">
+    <div class="section-container">
+      <div class="section-header text-center reveal">
+        <div class="section-label">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 9h6M9 12h6M9 15h4"/></svg>
+          Platform Features
+        </div>
+        <h2 class="section-title">Everything Your Unit Needs</h2>
+        <p class="section-subtitle">One platform. Every tool. Zero compromises.</p>
+      </div>
+      <div class="features-grid reveal-stagger">
+        <div class="feature-card">
+          <div class="feature-icon">🎖️</div>
+          <div class="feature-title">Personnel Management</div>
+          <p class="feature-desc">Full roster management with ranks, roles, MOS/specialty tracking, join dates, and complete service records for every soldier in your unit.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📋</div>
+          <div class="feature-title">Operations Center</div>
+          <p class="feature-desc">Plan, track, and debrief operations with attendance tracking, after-action reports, and full participation history across all operations.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">⭐</div>
+          <div class="feature-title">Evaluation System</div>
+          <p class="feature-desc">Structured performance evaluations with scoring rubrics, reviewer assignments, and promotion readiness tracking for your entire chain of command.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🤖</div>
+          <div class="feature-title">Discord Integration</div>
+          <p class="feature-desc">Automatic role sync, instant rank updates, and unit announcements pushed directly to your Discord server the moment changes are made.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🗺️</div>
+          <div class="feature-title">Live ORBAT</div>
+          <p class="feature-desc">Dynamic Order of Battle visualization showing your unit's full structure, position vacancies, chain of command, and real-time personnel assignments.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📄</div>
+          <div class="feature-title">Document Repository</div>
+          <p class="feature-desc">Secure, organized storage for SOPs, training guides, unit policies, reference materials, and mission briefings — accessible from anywhere.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🎽</div>
+          <div class="feature-title">Gear Loadouts</div>
+          <p class="feature-desc">Track and standardize equipment configurations for personnel and squads. Enforce unit loadout standards and manage gear assignments effortlessly.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <div class="feature-title">Analytics Dashboard</div>
+          <p class="feature-desc">Real-time insights into unit health, personnel trends, activity metrics, attendance rates, and performance data — all in one beautiful dashboard.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔧</div>
+          <div class="feature-title">Full Customization</div>
+          <p class="feature-desc">Brand it as your own with custom unit name, colors, logo, and Discord configuration. Enable or disable modules to fit your unit's specific needs.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       HOW IT WORKS
+  ============================================ -->
+  <section class="section how-it-works-bg" id="how-it-works">
+    <div class="section-container">
+      <div class="section-header text-center reveal">
+        <div class="section-label">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Quick Setup
+        </div>
+        <h2 class="section-title">Up and Running in Minutes</h2>
+        <p class="section-subtitle">Three steps from license key to fully operational unit management.</p>
+      </div>
+      <div class="steps-grid reveal-stagger">
+        <div class="step-card">
+          <div class="step-number">
+            <span class="step-number-inner">01</span>
+          </div>
+          <h3 class="step-title">Subscribe</h3>
+          <p class="step-desc">Choose your plan and get your license key instantly delivered to your email. No waiting, no approval process — just instant access.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">
+            <span class="step-number-inner">02</span>
+          </div>
+          <h3 class="step-title">Deploy</h3>
+          <p class="step-desc">Clone the repo, add your license key to your environment config, and deploy to your own server. Full documentation provided every step of the way.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">
+            <span class="step-number-inner">03</span>
+          </div>
+          <h3 class="step-title">Customize</h3>
+          <p class="step-desc">Configure your unit name, logo, colors, and Discord bot — then invite your unit. You're fully operational in under an hour.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       CUSTOMIZATION SHOWCASE
+  ============================================ -->
+  <section class="section" id="customization">
+    <div class="section-container">
+      <div class="customization-grid">
+        <div class="slide-in-left">
+          <div class="section-label">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+            White Label Ready
+          </div>
+          <h2 class="section-title">Your Unit.<br /><span class="gradient-text">Your Brand.</span></h2>
+          <p class="section-subtitle" style="margin-bottom: 0;">PERSCOM Advance adapts completely to any milsim unit's identity — no trace of our branding required.</p>
+          <ul class="custom-features-list">
+            <li class="custom-feature-item">
+              <div class="check-icon">✓</div>
+              Custom unit name and abbreviation
+            </li>
+            <li class="custom-feature-item">
+              <div class="check-icon">✓</div>
+              Your logo and color scheme
+            </li>
+            <li class="custom-feature-item">
+              <div class="check-icon">✓</div>
+              Discord server integration
+            </li>
+            <li class="custom-feature-item">
+              <div class="check-icon">✓</div>
+              Custom rank structure and insignia
+            </li>
+            <li class="custom-feature-item">
+              <div class="check-icon">✓</div>
+              Feature toggles — enable only what you need
+            </li>
+            <li class="custom-feature-item">
+              <div class="check-icon">✓</div>
+              Timezone and localization configuration
+            </li>
+          </ul>
+        </div>
+        <div class="slide-in-right">
+          <div class="app-mockup">
+            <div class="app-mockup-header">
+              <div class="app-unit-name">🦅 101st Airborne Division — PERSCOM</div>
+              <div class="app-header-dots">
+                <div class="mockup-dot mockup-dot-red"></div>
+                <div class="mockup-dot mockup-dot-yellow"></div>
+                <div class="mockup-dot mockup-dot-green"></div>
+              </div>
+            </div>
+            <div class="app-body">
+              <div class="app-hero-bar">
+                <div class="unit-badge-circle">101</div>
+                <div>
+                  <div class="unit-name-text">101st Airborne Division</div>
+                  <div class="unit-sub-text">Screaming Eagles · Est. 2021 · 248 Personnel</div>
+                </div>
+              </div>
+              <div class="app-modules-row">
+                <div class="app-module active">
+                  <div class="app-module-icon">👥</div>
+                  Personnel
+                </div>
+                <div class="app-module active">
+                  <div class="app-module-icon">🗺️</div>
+                  ORBAT
+                </div>
+                <div class="app-module active">
+                  <div class="app-module-icon">⚔️</div>
+                  Ops
+                </div>
+                <div class="app-module">
+                  <div class="app-module-icon">📊</div>
+                  Stats
+                </div>
+              </div>
+              <div class="app-roster-preview">
+                <div class="app-roster-header">Bravo Company — 3rd Platoon</div>
+                <div class="app-roster-row">
+                  <div class="app-roster-name">CPT Harrison, W.</div>
+                  <div class="app-roster-rank">Company CO</div>
+                </div>
+                <div class="app-roster-row">
+                  <div class="app-roster-name">1LT Reyes, D.</div>
+                  <div class="app-roster-rank">Plt Leader</div>
+                </div>
+                <div class="app-roster-row">
+                  <div class="app-roster-name">SSG Murphy, T.</div>
+                  <div class="app-roster-rank">Squad Ldr</div>
+                </div>
+                <div class="app-roster-row">
+                  <div class="app-roster-name">SPC Chen, L.</div>
+                  <div class="app-roster-rank">Rifleman</div>
+                </div>
+                <div class="app-roster-row">
+                  <div class="app-roster-name">PFC Johnson, A.</div>
+                  <div class="app-roster-rank">Rifleman</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       PRICING SECTION
+  ============================================ -->
+  <section class="section pricing-bg" id="pricing">
+    <div class="section-container">
+      <div class="section-header text-center reveal">
+        <div class="section-label">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="M2 9h20"/></svg>
+          Pricing
+        </div>
+        <h2 class="section-title">Simple, Transparent Pricing</h2>
+        <p class="section-subtitle">One price. Everything included. No hidden fees, no feature gating.</p>
+      </div>
+
+      <div class="pricing-toggle reveal">
+        <span class="toggle-label active" id="monthlyLabel">Monthly</span>
+        <div class="toggle-switch" id="pricingToggle">
+          <div class="toggle-knob"></div>
+        </div>
+        <span class="toggle-label" id="annualLabel">Annual</span>
+        <span class="save-badge">Save 17%</span>
+      </div>
+
+      <div class="pricing-card-wrapper reveal">
+        <div class="pricing-card">
+          <div class="pricing-plan-name">Full Access Plan</div>
+          <div class="pricing-price">
+            <span class="price-currency">$</span>
+            <span class="price-amount" id="priceAmount">14.99</span>
+            <span class="price-period" id="pricePeriod">/month</span>
+          </div>
+          <div class="price-annual" id="priceAnnual">&nbsp;</div>
+          <ul class="pricing-features">
+            <li>
+              <div class="check-icon">✓</div>
+              Full PERSCOM Advance platform
+            </li>
+            <li>
+              <div class="check-icon">✓</div>
+              Unlimited personnel records
+            </li>
+            <li>
+              <div class="check-icon">✓</div>
+              All features unlocked — nothing held back
+            </li>
+            <li>
+              <div class="check-icon">✓</div>
+              Discord bot integration included
+            </li>
+            <li>
+              <div class="check-icon">✓</div>
+              All future updates included
+            </li>
+            <li>
+              <div class="check-icon">✓</div>
+              Community support via Discord
+            </li>
+            <li>
+              <div class="check-icon">✓</div>
+              Complete setup documentation
+            </li>
+          </ul>
+          <a href="#" class="btn btn-primary btn-lg pricing-cta">Subscribe Now →</a>
+          <p class="pricing-note">
+            You host it. You own your data. No vendor lock-in.<br />
+            Cancel anytime — your server keeps running until billing ends.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       FAQ SECTION
+  ============================================ -->
+  <section class="section" id="faq">
+    <div class="section-container">
+      <div class="section-header text-center reveal">
+        <div class="section-label">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01"/></svg>
+          FAQ
+        </div>
+        <h2 class="section-title">Common Questions</h2>
+        <p class="section-subtitle">Everything you need to know before getting started.</p>
+      </div>
+
+      <div class="faq-list reveal">
+        <div class="faq-item">
+          <div class="faq-question">
+            Do I need my own server?
+            <div class="faq-icon">+</div>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Yes — PERSCOM Advance is self-hosted software. You deploy it on your own VPS or server. We recommend DigitalOcean, Hetzner, or Railway for easy deployment. Minimum specs: 1GB RAM, 10GB storage, and a public IP address. Most providers offer suitable servers starting at $5–$7/month.
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            What happens if I cancel my subscription?
+            <div class="faq-icon">+</div>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Your PERSCOM instance will stop working after your current billing period ends — the license validation will fail and the platform will enter a locked state. All of your data remains safely on your server. If you resubscribe, you can be back up and running immediately with no data loss.
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            Can I use one license for multiple units?
+            <div class="faq-icon">+</div>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Each license covers a single deployment of PERSCOM Advance. If you run multiple independent units or communities, you'll need a separate license for each instance. If you need multiple deployments, contact us — we offer discounts for multi-unit arrangements.
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            How do I receive updates?
+            <div class="faq-icon">+</div>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Updates are delivered through Git. Simply run <code style="background:rgba(37,99,235,0.1);padding:2px 6px;border-radius:4px;font-family:monospace;font-size:13px;">git pull</code> on your server to fetch the latest version, then restart the application. Major updates and release notes are announced in our Discord community server before deployment.
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            Is my unit's data safe and private?
+            <div class="faq-icon">+</div>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Your data never leaves your server. We have no access to your unit's personnel records, operations data, or any other information stored in your PERSCOM instance. The only external communication is license key validation — a simple ping that confirms your subscription is active. Your data is entirely yours.
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            What tech stack is required to self-host?
+            <div class="faq-icon">+</div>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              PERSCOM Advance requires Node.js 18 or higher, npm, and a Linux server with internet access. That's it. We provide a complete setup guide that walks you through every step, including configuring your Discord bot, setting up your environment variables, and running the application as a system service.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       CTA SECTION
+  ============================================ -->
+  <div class="cta-section">
+    <div class="cta-inner reveal">
+      <h2 class="cta-title">Ready to Elevate<br /><span class="gradient-text">Your Unit?</span></h2>
+      <p class="cta-sub">Join 50+ milsim units running PERSCOM Advance — the professional choice.</p>
+      <a href="#pricing" class="btn btn-primary btn-lg cta-btn">Get Your License →</a>
+    </div>
+  </div>
+
+  <!-- ============================================
+       FOOTER
+  ============================================ -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <span class="gradient-text-blue">PERSCOM</span>
+            <span style="color: var(--text-primary);"> Advance</span>
+          </div>
+          <p class="footer-tagline">
+            The professional-grade personnel management platform built for serious milsim gaming units worldwide.
+          </p>
+        </div>
+        <div>
+          <div class="footer-col-title">Platform</div>
+          <ul class="footer-links">
+            <li><a href="#features">Features</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#how-it-works">How It Works</a></li>
+            <li><a href="#faq">FAQ</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Resources</div>
+          <ul class="footer-links">
+            <li><a href="#">Documentation</a></li>
+            <li><a href="#">GitHub</a></li>
+            <li><a href="#">Changelog</a></li>
+            <li><a href="#">Setup Guide</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Community</div>
+          <ul class="footer-links">
+            <li><a href="#">Discord Server</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Support</a></li>
+            <li><a href="#">Status</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-copy">© 2026 PERSCOM Advance. All rights reserved.</div>
+        <div class="footer-legal">
+          <a href="#">Terms of Service</a>
+          <a href="#">Privacy Policy</a>
+          <a href="#">License</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================
+       JAVASCRIPT
+  ============================================ -->
+  <script>
+    // ============================================
+    // 1. NAVBAR SCROLL EFFECT
+    // ============================================
+    const navbar = document.getElementById('navbar');
+    let lastScrollY = 0;
+
+    window.addEventListener('scroll', () => {
+      const scrollY = window.scrollY;
+      if (scrollY > 40) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+      lastScrollY = scrollY;
+    }, { passive: true });
+
+    // ============================================
+    // 2. MOBILE HAMBURGER MENU
+    // ============================================
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileLinks = document.querySelectorAll('.mobile-link');
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+      document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+    });
+
+    mobileLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('open');
+        mobileMenu.classList.remove('open');
+        document.body.style.overflow = '';
+      });
+    });
+
+    // ============================================
+    // 3. SCROLL REVEAL WITH INTERSECTION OBSERVER
+    // ============================================
+    const revealObserverOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, revealObserverOptions);
+
+    const revealElements = document.querySelectorAll(
+      '.reveal, .reveal-stagger, .slide-in-left, .slide-in-right, .fade-in'
+    );
+    revealElements.forEach(el => revealObserver.observe(el));
+
+    // ============================================
+    // 4. COUNTER ANIMATION
+    // ============================================
+    function animateCounter(el) {
+      const target = parseFloat(el.dataset.target);
+      const suffix = el.dataset.suffix || '';
+      const decimal = parseInt(el.dataset.decimal || '0');
+      const duration = 2000;
+      const startTime = performance.now();
+      const startVal = 0;
+
+      function update(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        // Easing: ease out cubic
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const current = startVal + (target - startVal) * eased;
+
+        if (decimal > 0) {
+          el.textContent = current.toFixed(decimal) + suffix;
+        } else {
+          el.textContent = Math.floor(current) + suffix;
+        }
+
+        if (progress < 1) {
+          requestAnimationFrame(update);
+        } else {
+          if (decimal > 0) {
+            el.textContent = target.toFixed(decimal) + suffix;
+          } else {
+            el.textContent = Math.floor(target) + suffix;
+          }
+        }
+      }
+
+      requestAnimationFrame(update);
+    }
+
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const counters = entry.target.querySelectorAll('[data-target]');
+          counters.forEach(counter => {
+            setTimeout(() => animateCounter(counter), 200);
+          });
+          counterObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+
+    const statsSection = document.querySelector('.stats-bar-inner');
+    if (statsSection) counterObserver.observe(statsSection);
+
+    // ============================================
+    // 5. FAQ ACCORDION
+    // ============================================
+    const faqItems = document.querySelectorAll('.faq-item');
+
+    faqItems.forEach(item => {
+      const question = item.querySelector('.faq-question');
+      const answer = item.querySelector('.faq-answer');
+
+      question.addEventListener('click', () => {
+        const isOpen = item.classList.contains('open');
+
+        // Close all other items
+        faqItems.forEach(otherItem => {
+          if (otherItem !== item && otherItem.classList.contains('open')) {
+            otherItem.classList.remove('open');
+            otherItem.querySelector('.faq-answer').style.maxHeight = '0';
+          }
+        });
+
+        // Toggle current item
+        if (isOpen) {
+          item.classList.remove('open');
+          answer.style.maxHeight = '0';
+        } else {
+          item.classList.add('open');
+          answer.style.maxHeight = answer.scrollHeight + 'px';
+        }
+      });
+    });
+
+    // ============================================
+    // 6. PRICING TOGGLE
+    // ============================================
+    const pricingToggle = document.getElementById('pricingToggle');
+    const monthlyLabel = document.getElementById('monthlyLabel');
+    const annualLabel = document.getElementById('annualLabel');
+    const priceAmount = document.getElementById('priceAmount');
+    const pricePeriod = document.getElementById('pricePeriod');
+    const priceAnnual = document.getElementById('priceAnnual');
+
+    let isAnnual = false;
+
+    pricingToggle.addEventListener('click', () => {
+      isAnnual = !isAnnual;
+      pricingToggle.classList.toggle('annual', isAnnual);
+      monthlyLabel.classList.toggle('active', !isAnnual);
+      annualLabel.classList.toggle('active', isAnnual);
+
+      if (isAnnual) {
+        priceAmount.textContent = '149.99';
+        pricePeriod.textContent = '/year';
+        priceAnnual.textContent = 'Save $29.89 vs. monthly billing';
+      } else {
+        priceAmount.textContent = '14.99';
+        pricePeriod.textContent = '/month';
+        priceAnnual.innerHTML = '&nbsp;';
+      }
+    });
+
+    // ============================================
+    // 7. SMOOTH SCROLLING FOR NAV LINKS
+    // ============================================
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const href = this.getAttribute('href');
+        if (href === '#') return;
+        const target = document.querySelector(href);
+        if (target) {
+          e.preventDefault();
+          const offset = 80;
+          const top = target.getBoundingClientRect().top + window.scrollY - offset;
+          window.scrollTo({ top, behavior: 'smooth' });
+        }
+      });
+    });
+
+    // ============================================
+    // 8. PARALLAX EFFECT ON HERO ORBS
+    // ============================================
+    const orb1 = document.getElementById('orb1');
+    const orb2 = document.getElementById('orb2');
+    const orb3 = document.getElementById('orb3');
+    const orb4 = document.getElementById('orb4');
+
+    let mouseX = 0, mouseY = 0;
+    let currentX = 0, currentY = 0;
+    let rafId = null;
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+      mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+
+      if (!rafId) {
+        rafId = requestAnimationFrame(updateOrbs);
+      }
+    });
+
+    function updateOrbs() {
+      rafId = null;
+      currentX += (mouseX - currentX) * 0.05;
+      currentY += (mouseY - currentY) * 0.05;
+
+      if (orb1) orb1.style.transform = `translate(${currentX * 30}px, ${currentY * 20}px)`;
+      if (orb2) orb2.style.transform = `translate(${currentX * -25}px, ${currentY * 15}px)`;
+      if (orb3) orb3.style.transform = `translate(${currentX * 15}px, ${currentY * -20}px)`;
+      if (orb4) orb4.style.transform = `translate(${currentX * -20}px, ${currentY * 25}px)`;
+
+      if (Math.abs(mouseX - currentX) > 0.001 || Math.abs(mouseY - currentY) > 0.001) {
+        rafId = requestAnimationFrame(updateOrbs);
+      }
+    }
+
+    // ============================================
+    // 9. TYPEWRITER EFFECT FOR HERO SUB
+    // ============================================
+    const heroSub = document.getElementById('heroSub');
+    const originalText = heroSub ? heroSub.textContent.trim() : '';
+
+    if (heroSub && originalText) {
+      heroSub.textContent = '';
+      heroSub.style.opacity = '1';
+
+      let charIndex = 0;
+      const typingSpeed = 22;
+      const startDelay = 800;
+
+      function typeNextChar() {
+        if (charIndex < originalText.length) {
+          heroSub.textContent += originalText[charIndex];
+          charIndex++;
+          setTimeout(typeNextChar, typingSpeed);
+        }
+      }
+
+      setTimeout(typeNextChar, startDelay);
+    }
+
+    // ============================================
+    // 10. ACTIVE NAV LINK HIGHLIGHTING
+    // ============================================
+    const sections = document.querySelectorAll('section[id], div[id]');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    const activeNavObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id;
+          navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === '#' + id) {
+              link.classList.add('active');
+            }
+          });
+        }
+      });
+    }, {
+      threshold: 0.4,
+      rootMargin: '-80px 0px -40% 0px'
+    });
+
+    sections.forEach(section => {
+      if (section.id) activeNavObserver.observe(section);
+    });
+
+    // ============================================
+    // INITIAL HERO ANIMATION
+    // ============================================
+    // Animate hero elements in on page load
+    window.addEventListener('load', () => {
+      const heroBadge = document.querySelector('.hero-badge');
+      const heroHeadline = document.querySelector('.hero-headline');
+      const heroCtas = document.querySelector('.hero-ctas');
+      const heroProof = document.querySelector('.hero-social-proof');
+
+      const elements = [heroBadge, heroHeadline, heroCtas, heroProof].filter(Boolean);
+
+      elements.forEach((el, i) => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(24px)';
+        el.style.transition = 'opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+        el.style.transitionDelay = `${i * 150}ms`;
+
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            el.style.opacity = '1';
+            el.style.transform = 'translateY(0)';
+          });
+        });
+      });
+
+      // Animate hero mockup
+      const heroVisual = document.querySelector('.hero-visual');
+      if (heroVisual) {
+        heroVisual.style.opacity = '0';
+        heroVisual.style.transform = 'translateX(40px)';
+        heroVisual.style.transition = 'opacity 1s cubic-bezier(0.4, 0, 0.2, 1), transform 1s cubic-bezier(0.4, 0, 0.2, 1)';
+        heroVisual.style.transitionDelay = '400ms';
+
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            heroVisual.style.opacity = '1';
+            heroVisual.style.transform = 'translateX(0)';
+          });
+        });
+      }
+    });
+  </script>
+</body>
+</html>
