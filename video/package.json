@@ -1,0 +1,23 @@
+{
+  "name": "perscom-video",
+  "version": "1.0.0",
+  "description": "PERSCOM Advance product showcase video",
+  "main": "src/index.tsx",
+  "scripts": {
+    "start": "npx remotion studio src/index.tsx",
+    "render": "npx remotion render src/index.tsx PerscomShowcase ../assets/perscom-showcase.mp4 --concurrency=2"
+  },
+  "dependencies": {
+    "@remotion/bundler": "^4.0.0",
+    "@remotion/cli": "^4.0.0",
+    "@remotion/renderer": "^4.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "remotion": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "typescript": "^5.0.0"
+  }
+}
