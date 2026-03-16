@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terms of Service — PERSCOM Advance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #03060f;
+      --bg-card: #06091a;
+      --blue: #1560e8;
+      --blue-light: #3b82f6;
+      --blue-dim: #0ea5e9;
+      --text: #ddeeff;
+      --muted: #7a9bc4;
+      --subtle: #3d5a7a;
+      --green: #00e887;
+      --border: rgba(21,96,232,0.14);
+      --border-blue: rgba(21,96,232,0.35);
+      --grid: rgba(21,96,232,0.06);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(var(--grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none; z-index: 0;
+    }
+    a { color: var(--blue-light); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .navbar {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(3,6,15,0.97);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-blue);
+      padding: 16px 24px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo { font-size: 18px; font-weight: 800; letter-spacing: -0.03em; }
+    .nav-logo span { color: var(--blue-light); }
+    .nav-back { font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 6px; transition: color 0.2s; }
+    .nav-back:hover { color: var(--text); text-decoration: none; }
+
+    .wrapper { max-width: 820px; margin: 0 auto; padding: 60px 24px 100px; position: relative; z-index: 1; }
+
+    .doc-header { margin-bottom: 48px; padding-bottom: 32px; border-bottom: 1px solid var(--border-blue); }
+    .doc-sys { font-family: 'Courier New', monospace; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--green); opacity: 0.7; margin-bottom: 12px; }
+    .doc-title { font-size: clamp(28px, 4vw, 44px); font-weight: 900; letter-spacing: -0.02em; margin-bottom: 12px; }
+    .doc-meta { font-size: 13px; color: var(--muted); font-family: 'Courier New', monospace; }
+
+    .toc {
+      background: var(--bg-card);
+      border: 1px solid var(--border-blue);
+      border-left: 3px solid var(--blue);
+      padding: 24px 28px;
+      margin-bottom: 48px;
+    }
+    .toc-title { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; font-family: 'Courier New', monospace; color: var(--blue-dim); margin-bottom: 14px; }
+    .toc ol { padding-left: 20px; display: flex; flex-direction: column; gap: 6px; }
+    .toc a { font-size: 14px; color: var(--muted); }
+    .toc a:hover { color: var(--text); text-decoration: none; }
+
+    .section { margin-bottom: 48px; }
+    .section-num {
+      font-family: 'Courier New', monospace; font-size: 10px; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--blue-dim); margin-bottom: 8px; display: block;
+    }
+    h2 { font-size: 20px; font-weight: 800; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+    h3 { font-size: 16px; font-weight: 700; margin: 24px 0 10px; color: var(--blue-light); }
+    p { font-size: 15px; color: var(--muted); margin-bottom: 14px; }
+    p strong { color: var(--text); }
+    ul, ol { padding-left: 20px; margin-bottom: 14px; display: flex; flex-direction: column; gap: 6px; }
+    li { font-size: 15px; color: var(--muted); }
+    li strong { color: var(--text); }
+
+    .warning-box {
+      background: rgba(21,96,232,0.08);
+      border: 1px solid var(--border-blue);
+      border-left: 3px solid var(--blue);
+      padding: 16px 20px; margin: 24px 0;
+    }
+    .warning-box p { color: var(--text); margin: 0; font-size: 14px; }
+
+    .footer { margin-top: 80px; padding-top: 32px; border-top: 1px solid var(--border); text-align: center; }
+    .footer p { font-size: 13px; color: var(--subtle); }
+    .footer a { color: var(--muted); }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-logo">PERSCOM <span>Advance</span></div>
+  <a href="index.html" class="nav-back">
+    <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+    Back to Home
+  </a>
+</nav>
+
+<div class="wrapper">
+  <div class="doc-header">
+    <div class="doc-sys">// LEGAL DOCUMENT — SYS/TERMS</div>
+    <h1 class="doc-title">Terms of Service</h1>
+    <div class="doc-meta">Last Updated: March 16, 2026 &nbsp;|&nbsp; Effective: March 16, 2026</div>
+  </div>
+
+  <div class="toc">
+    <div class="toc-title">// Table of Contents</div>
+    <ol>
+      <li><a href="#acceptance">Acceptance of Terms</a></li>
+      <li><a href="#license">License Grant and Restrictions</a></li>
+      <li><a href="#subscription">Subscription and Payment</a></li>
+      <li><a href="#ip">Intellectual Property</a></li>
+      <li><a href="#prohibited">Prohibited Uses</a></li>
+      <li><a href="#data">Your Data</a></li>
+      <li><a href="#disclaimer">Disclaimers and Warranties</a></li>
+      <li><a href="#liability">Limitation of Liability</a></li>
+      <li><a href="#indemnification">Indemnification</a></li>
+      <li><a href="#termination">Termination</a></li>
+      <li><a href="#dmca">DMCA and Copyright</a></li>
+      <li><a href="#governing">Governing Law and Disputes</a></li>
+      <li><a href="#changes">Changes to Terms</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ol>
+  </div>
+
+  <div class="warning-box">
+    <p><strong>PLEASE READ THESE TERMS CAREFULLY.</strong> By accessing, downloading, installing, or using PERSCOM Advance, you agree to be bound by these Terms of Service. If you do not agree, you must not use the software.</p>
+  </div>
+
+  <div class="section" id="acceptance">
+    <span class="section-num">// 01</span>
+    <h2>1. Acceptance of Terms</h2>
+    <p>These Terms of Service ("Terms") constitute a legally binding agreement between you ("Licensee," "you," or "your") and PERSCOM Advance ("Company," "we," "us," or "our") governing your access to and use of the PERSCOM Advance software platform, including all associated services, documentation, and updates (collectively, the "Software").</p>
+    <p>By subscribing, downloading, cloning, installing, or otherwise using the Software, you acknowledge that you have read, understood, and agree to be bound by these Terms and our Privacy Policy, which is incorporated herein by reference. If you are accepting on behalf of an organization or entity, you represent and warrant that you have authority to bind such organization to these Terms.</p>
+  </div>
+
+  <div class="section" id="license">
+    <span class="section-num">// 02</span>
+    <h2>2. License Grant and Restrictions</h2>
+    <h3>2.1 Grant of License</h3>
+    <p>Subject to your compliance with these Terms and payment of applicable subscription fees, we grant you a limited, non-exclusive, non-transferable, non-sublicensable, revocable license to install and operate one (1) instance of the PERSCOM Advance Software on a single server or hosting environment controlled by you, solely for your personal or internal organizational use.</p>
+    <h3>2.2 License Key</h3>
+    <p>Each subscription includes one (1) unique license key. Your license key is:</p>
+    <ul>
+      <li>Tied to a single deployment and domain</li>
+      <li>Non-transferable without prior written consent from PERSCOM Advance</li>
+      <li>Confidential — you must not share, publish, or disclose it publicly</li>
+      <li>Subject to remote validation at any time</li>
+    </ul>
+    <h3>2.3 Restrictions</h3>
+    <p>You expressly agree that you will NOT, and will not permit others to:</p>
+    <ul>
+      <li><strong>Copy or redistribute</strong> the Software or any portion thereof to any third party</li>
+      <li><strong>Reverse engineer, decompile, disassemble,</strong> or otherwise attempt to derive the source code or underlying algorithms of any compiled portions of the Software</li>
+      <li><strong>Modify, adapt, translate, or create derivative works</strong> based on the Software for resale or distribution</li>
+      <li><strong>Sublicense, sell, resell, rent, lease, or transfer</strong> the Software or your license key to any third party</li>
+      <li><strong>Remove, alter, or obscure</strong> any proprietary notices, trademarks, or copyright notices within the Software</li>
+      <li><strong>Use the Software to build a competing product</strong> or service, or assist any third party in doing so</li>
+      <li>Use the Software in any manner that violates applicable laws or regulations</li>
+      <li>Circumvent or disable the license validation mechanism</li>
+    </ul>
+  </div>
+
+  <div class="section" id="subscription">
+    <span class="section-num">// 03</span>
+    <h2>3. Subscription and Payment</h2>
+    <h3>3.1 Subscription Plans</h3>
+    <p>PERSCOM Advance is offered on a subscription basis. Fees are billed in advance on a monthly or annual cycle depending on your selected plan. All fees are stated in US Dollars and are non-refundable except as expressly set forth herein.</p>
+    <h3>3.2 Automatic Renewal</h3>
+    <p>Your subscription will automatically renew at the end of each billing period unless you cancel before the renewal date. You authorize us (via our payment processor, Stripe) to charge your payment method on file for the renewal amount.</p>
+    <h3>3.3 Price Changes</h3>
+    <p>We reserve the right to change subscription pricing at any time. We will provide at least thirty (30) days' advance notice of any price increase. Your continued use after the effective date of a price change constitutes your acceptance of the new pricing.</p>
+    <h3>3.4 Refunds</h3>
+    <p>All fees are non-refundable. We do not provide refunds or credits for partial subscription periods, unused time, or discontinued use. If you believe you were charged in error, contact us within 30 days of the charge.</p>
+    <h3>3.5 Failed Payments</h3>
+    <p>If a payment fails, we may suspend or terminate your license. You will receive notice and a reasonable opportunity to update your payment information before suspension takes effect.</p>
+  </div>
+
+  <div class="section" id="ip">
+    <span class="section-num">// 04</span>
+    <h2>4. Intellectual Property</h2>
+    <p>The Software, including all code, design, graphics, documentation, trademarks, service marks, and logos, is and shall remain the exclusive intellectual property of PERSCOM Advance and its licensors. All rights not expressly granted in these Terms are reserved.</p>
+    <p>These Terms do not convey to you any ownership interest in or to the Software. The limited license granted herein does not include the right to use our trademarks, trade names, or service marks in any manner without our prior written consent.</p>
+    <p><strong>Your unit data</strong> (personnel records, operations data, documents, etc.) stored within your self-hosted deployment remains your property. We claim no ownership over content you create using the Software.</p>
+  </div>
+
+  <div class="section" id="prohibited">
+    <span class="section-num">// 05</span>
+    <h2>5. Prohibited Uses</h2>
+    <p>In addition to the restrictions in Section 2, you agree not to use the Software to:</p>
+    <ul>
+      <li>Collect, store, or process the personal data of individuals without appropriate legal basis or consent</li>
+      <li>Engage in any unlawful activity or facilitate illegal conduct</li>
+      <li>Transmit any malware, spyware, or malicious code</li>
+      <li>Impersonate PERSCOM Advance or misrepresent your affiliation with us</li>
+      <li>Attempt to gain unauthorized access to our license servers or infrastructure</li>
+      <li>Publicly display the Software as your own product or under a name other than PERSCOM Advance without a written white-label agreement</li>
+    </ul>
+  </div>
+
+  <div class="section" id="data">
+    <span class="section-num">// 06</span>
+    <h2>6. Your Data</h2>
+    <p>PERSCOM Advance is a self-hosted product. All data you enter into the Software (personnel records, operations, documents, etc.) is stored on your own server and infrastructure. <strong>We do not have access to, and do not collect, your unit's operational data.</strong></p>
+    <p>The only data we process is what is necessary for license validation (your license key and deployment domain). See our <a href="privacy.html">Privacy Policy</a> for details.</p>
+    <p>You are solely responsible for the security, backup, and appropriate handling of all data stored within your deployment, including compliance with applicable privacy and data protection laws (including GDPR, CCPA, or other applicable regulations) with respect to any personal data of your unit members.</p>
+  </div>
+
+  <div class="section" id="disclaimer">
+    <span class="section-num">// 07</span>
+    <h2>7. Disclaimers and Warranties</h2>
+    <div class="warning-box">
+      <p><strong>THE SOFTWARE IS PROVIDED "AS IS" AND "AS AVAILABLE," WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.</strong> TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, WE DISCLAIM ALL WARRANTIES, INCLUDING BUT NOT LIMITED TO IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT, AND ANY WARRANTIES ARISING FROM COURSE OF DEALING OR USAGE OF TRADE.</p>
+    </div>
+    <p>We do not warrant that: (a) the Software will be uninterrupted, error-free, or completely secure; (b) defects will be corrected; (c) the Software or the servers that make it available are free of viruses or other harmful components. You assume all risk arising from your use of the Software.</p>
+  </div>
+
+  <div class="section" id="liability">
+    <span class="section-num">// 08</span>
+    <h2>8. Limitation of Liability</h2>
+    <div class="warning-box">
+      <p><strong>TO THE MAXIMUM EXTENT PERMITTED BY LAW, IN NO EVENT SHALL PERSCOM ADVANCE, ITS OWNERS, OPERATORS, EMPLOYEES, OR AFFILIATES BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, EXEMPLARY, OR PUNITIVE DAMAGES</strong> (INCLUDING LOSS OF PROFITS, DATA, GOODWILL, OR BUSINESS INTERRUPTION) ARISING OUT OF OR RELATED TO YOUR USE OF OR INABILITY TO USE THE SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.</p>
+    </div>
+    <p>In no event shall our total aggregate liability to you for all claims arising out of or related to these Terms or the Software exceed the total amount paid by you to PERSCOM Advance in the twelve (12) months immediately preceding the event giving rise to the claim.</p>
+    <p>Some jurisdictions do not allow the exclusion or limitation of certain damages, so the above limitations may not apply to you to the full extent.</p>
+  </div>
+
+  <div class="section" id="indemnification">
+    <span class="section-num">// 09</span>
+    <h2>9. Indemnification</h2>
+    <p>You agree to indemnify, defend, and hold harmless PERSCOM Advance and its owners, operators, affiliates, officers, and agents from and against any and all claims, liabilities, damages, losses, costs, and expenses (including reasonable legal fees) arising out of or relating to:</p>
+    <ul>
+      <li>Your use of the Software in violation of these Terms</li>
+      <li>Your violation of any third-party right, including intellectual property, privacy, or publicity rights</li>
+      <li>Your violation of any applicable laws or regulations</li>
+      <li>Any data stored or processed within your deployment</li>
+      <li>Any claims made by members of your unit arising from use of the platform</li>
+    </ul>
+  </div>
+
+  <div class="section" id="termination">
+    <span class="section-num">// 10</span>
+    <h2>10. Termination</h2>
+    <p>We may suspend or terminate your license at any time, with or without notice, if you breach any provision of these Terms or if your subscription payment fails. Upon termination:</p>
+    <ul>
+      <li>Your license key will be deactivated</li>
+      <li>Your access to Software updates will cease</li>
+      <li>The license validation will return invalid, causing the Software to enter a restricted state</li>
+    </ul>
+    <p>Your data on your own server will not be deleted by us — it remains on your infrastructure and your responsibility. Sections 4, 7, 8, 9, and 12 survive termination of these Terms.</p>
+  </div>
+
+  <div class="section" id="dmca">
+    <span class="section-num">// 11</span>
+    <h2>11. DMCA and Copyright</h2>
+    <p>PERSCOM Advance respects intellectual property rights. If you believe that any content associated with our Software infringes your copyright, please contact us at <strong>legal@perscomadvance.com</strong> with: (a) identification of the copyrighted work; (b) identification of the allegedly infringing material; (c) your contact information; (d) a statement of good faith belief; and (e) a statement of accuracy under penalty of perjury.</p>
+    <p>We reserve the right to remove any infringing material and terminate accounts of repeat infringers.</p>
+  </div>
+
+  <div class="section" id="governing">
+    <span class="section-num">// 12</span>
+    <h2>12. Governing Law and Disputes</h2>
+    <p>These Terms shall be governed by and construed in accordance with the laws of the United States, without regard to conflict of law principles. Any dispute arising out of or related to these Terms or the Software shall first be subject to good-faith negotiation between the parties.</p>
+    <p>If the dispute cannot be resolved through negotiation within thirty (30) days, it shall be settled by binding arbitration administered in accordance with the American Arbitration Association's Commercial Arbitration Rules. The place of arbitration shall be determined by mutual agreement. Judgment on the arbitration award may be entered in any court of competent jurisdiction.</p>
+    <p><strong>Class Action Waiver:</strong> You agree that any dispute resolution proceedings will be conducted on an individual basis only, and not in a class, consolidated, or representative action.</p>
+  </div>
+
+  <div class="section" id="changes">
+    <span class="section-num">// 13</span>
+    <h2>13. Changes to Terms</h2>
+    <p>We reserve the right to modify these Terms at any time. We will notify you of material changes by posting the updated Terms on our website and updating the "Last Updated" date. Your continued use of the Software after the effective date of the revised Terms constitutes your acceptance of the changes.</p>
+  </div>
+
+  <div class="section" id="contact">
+    <span class="section-num">// 14</span>
+    <h2>14. Contact</h2>
+    <p>For legal inquiries, notices, or questions regarding these Terms, contact us at:</p>
+    <p><strong>PERSCOM Advance</strong><br />
+    Email: <a href="mailto:legal@perscomadvance.com">legal@perscomadvance.com</a><br />
+    Website: <a href="https://perscomadvance.com">perscomadvance.com</a></p>
+  </div>
+
+  <div class="footer">
+    <p>© 2026 PERSCOM Advance. All rights reserved. &nbsp;|&nbsp; <a href="terms.html">Terms of Service</a> &nbsp;|&nbsp; <a href="privacy.html">Privacy Policy</a></p>
+  </div>
+</div>
+
+</body>
+</html>
